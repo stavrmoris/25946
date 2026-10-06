@@ -367,10 +367,7 @@ cleanup:
 
 // === === === === === ===
 
-//./options -i
-//./options -p
 //./options -s -p
-//./options -d
 //./options -VTEST=hello -v
 //./options -C0 -c
 

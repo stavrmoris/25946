@@ -8,17 +8,20 @@
 static void print_ids(const char *stage)
 {
     printf("%s\n", stage);
+    /* Реальный UID определяет пользователя процесса, эффективный UID используется при проверке доступа */
     printf("real_uid=%lu\n", (unsigned long)getuid());
     printf("effective_uid=%lu\n", (unsigned long)geteuid());
 }
 
 static int try_open_data(const char *stage)
 {
+    /* Относительный путь отсчитывается от текущей рабочей папки */
     FILE *data = fopen("data.txt", "r");
 
     if (data == NULL) {
         fprintf(stderr, "%s: ", stage);
         perror("fopen data.txt");
+        /* Отказ в доступе ожидаем в этом опыте, поэтому продолжаем выполнение */
         return 0;
     }
 
@@ -38,6 +41,7 @@ int main(void)
         return EXIT_FAILURE;
     }
 
+    /* Возвращаем эффективный UID к реальному UID пользователя, запустившего программу */
     if (setuid(getuid()) == -1) {
         perror("setuid(getuid())");
         return EXIT_FAILURE;

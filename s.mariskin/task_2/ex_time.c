@@ -6,11 +6,11 @@
 
 int main(void)
 {
-    time_t now;
-    struct tm *california_time;
-    int zone_index;
+    time_t now; // текущий момент времени в сек с 1970
+    struct tm *california_time; // структура с полями год, месяц, день, часы, минуты и признак летнего времени
+    int zone_index; // просто подпись индекса зоны
 
-    /* Set the time zone for this process only. */
+    /* Устанавливаем часовой пояс только для текущего процесса */
     if (setenv("TZ", "America/Los_Angeles", 1) == -1) {
         perror("setenv(TZ)");
         return EXIT_FAILURE;
@@ -29,7 +29,7 @@ int main(void)
         return EXIT_FAILURE;
     }
 
-    /* tm_isdst is positive during daylight saving time, zero otherwise. */
+    /* Положительное значение tm_isdst означает летнее время, ноль означает стандартное время */
     zone_index = california_time->tm_isdst > 0 ? 1 : 0;
 
     printf("%02d/%02d/%04d %02d:%02d %s\n",
